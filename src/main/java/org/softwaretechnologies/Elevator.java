@@ -24,7 +24,6 @@ public final class Elevator {
      * включительно.
      * Если lowestFloor отрицательный, то нулевой этаж существует.
      * Если lowestFloor -3 то в здании три уровня подземной парковки.
-     *
      * @param highestFloor Самый верхний этаж, на который может подняться лифт
      * @param lowestFloor Самый нижний этаж, на который может опуститься лифт
      */
@@ -71,7 +70,14 @@ public final class Elevator {
      * @param floor этаж, на который должен переместиться лифт
      */
     public void goToExactFloor(int floor) {
-       // TODO: реализуйте вышеуказанную функцию
+        //TODO Доделать и вообще не робит
+        while (floor!=getCurrentFloor()) {
+            if (getCurrentFloor()<floor) {
+                goUp();
+            } else {
+                goDown();
+            }
+        }
     }
 
     /**
