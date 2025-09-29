@@ -27,7 +27,9 @@ public class Money {
     @Override
     public boolean equals(Object o) {
         // TODO: реализуйте вышеуказанную функцию
-
+        if(this.getClass()!=o.getClass()) {return false;}
+        if(this.type!=((Money) o).getType()) {return false;}
+        if(this.amount.setScale(4, RoundingMode.HALF_UP).equals(((Money) o).getAmount().setScale(4, RoundingMode.HALF_UP))) {return true;}
         return false;
     }
 
