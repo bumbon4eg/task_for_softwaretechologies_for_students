@@ -57,8 +57,21 @@ public class Money {
      */
     @Override
     public int hashCode() {
-        // TODO: сделать
-        return 0;
+        if (this.amount==null) {
+            return 10000;
+        } else if (Integer.compare(Integer.parseInt(String.valueOf(this.amount.setScale(4, RoundingMode.HALF_UP))), MAX_VALUE-5)>=0) {
+            return MAX_VALUE;
+        } else {
+            int tmp = Integer.parseInt(String.valueOf(this.amount.setScale(4, RoundingMode.HALF_UP)));
+            switch (this.type) {
+                case USD -> tmp += 1;
+                case EURO -> tmp += 2;
+                case RUB -> tmp += 3;
+                case KRONA -> tmp += 4;
+                default -> tmp += 5;
+            }
+            return tmp;
+        }
     }
 
     /**
