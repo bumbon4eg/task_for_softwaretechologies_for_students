@@ -2,6 +2,7 @@ package org.softwaretechnologies;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
 import java.util.Random;
 
 import static java.lang.Integer.MAX_VALUE;
@@ -26,8 +27,16 @@ public class Money {
      */
     @Override
     public boolean equals(Object o) {
-        // TODO: реализуйте вышеуказанную функцию
-
+        if (this == o) {
+            return true;
+        }else if (o instanceof Money) {
+            if (this.amount==null||((Money) o).amount==null) {
+                return (this.amount==null&&((Money) o).amount==null);
+            } else {
+                return ((Objects.equals(this.amount.setScale(4, RoundingMode.HALF_UP), ((Money) o).amount.setScale(4, RoundingMode.HALF_UP))
+                        && (Objects.equals(this.type, ((Money) o).type))));
+            }
+        }
         return false;
     }
 
@@ -48,11 +57,8 @@ public class Money {
      */
     @Override
     public int hashCode() {
-        // TODO: реализуйте вышеуказанную функцию
-
-
-        Random random = new Random();
-        return random.nextInt();
+        // TODO: сделать
+        return 0;
     }
 
     /**
