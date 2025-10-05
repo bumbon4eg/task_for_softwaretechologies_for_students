@@ -93,8 +93,7 @@ public class Money {
      */
     @Override
     public String toString() {
-        // TODO: реализуйте вышеуказанную функцию
-        String str = type.toString()+": "+amount.setScale(4, RoundingMode.HALF_UP).toString();
+        String str = (this.type==null ? "null" : this.type.toString()) + ": " + (this.amount==null ? "null" : this.amount.setScale(4, RoundingMode.HALF_UP).toString());
         return str;
     }
 
