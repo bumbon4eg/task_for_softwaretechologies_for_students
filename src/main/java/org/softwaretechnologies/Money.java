@@ -57,18 +57,42 @@ public class Money {
      */
     @Override
     public int hashCode() {
+
         if (this.amount==null) {
             return 10000;
-        } else if (Integer.compare(Integer.parseInt(String.valueOf(this.amount.setScale(4, RoundingMode.HALF_UP))), MAX_VALUE-5)>=0) {
+        }
+
+        BigDecimal scaledAmount = amount.setScale(4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(10_000));
+        if (scaledAmount.compareTo(BigDecimal.valueOf(MAX_VALUE - 5)) >= 0) {
             return MAX_VALUE;
         } else {
-            int tmp = Integer.parseInt(String.valueOf(this.amount.setScale(4, RoundingMode.HALF_UP)));
+            int tmp = this.amount.setScale(4, RoundingMode.HALF_UP).intValue();
+
+            if (type == null) {
+                tmp += 5;
+                return tmp;
+            }
+
             switch (this.type) {
-                case USD -> tmp += 1;
-                case EURO -> tmp += 2;
-                case RUB -> tmp += 3;
-                case KRONA -> tmp += 4;
-                default -> tmp += 5;
+                case USD -> {
+                    tmp += 1;
+                    }
+                    case EURO -> {
+                        tmp += 2;
+                        break;
+                    }
+                    case RUB -> {
+                        tmp += 3;
+                        break;
+                    }
+                    case KRONA -> {
+                        tmp += 4;
+                        break;
+                    }
+                    default -> {
+                        tmp += 5;
+                        break;
+                    }
             }
             return tmp;
         }
@@ -93,8 +117,7 @@ public class Money {
      */
     @Override
     public String toString() {
-        String str = (this.type==null ? "null" : this.type.toString()) + ": " + (this.amount==null ? "null" : this.amount.setScale(4, RoundingMode.HALF_UP).toString());
-        return str;
+        return (this.type==null ? "null" : this.type.toString()) + ": " + (this.amount==null ? "null" : this.amount.setScale(4, RoundingMode.HALF_UP).toString());
     }
 
     public BigDecimal getAmount() {
@@ -106,9 +129,9 @@ public class Money {
     }
 
     public static void main(String[] args) {
-        Money money = new Money(MoneyType.EURO, BigDecimal.valueOf(10.00012));
-        Money money1 = new Money(MoneyType.USD, BigDecimal.valueOf(10.5000));
-        System.out.println(money1.toString());
+        Money money = new Money(MoneyType.USD, BigDecimal.valueOf(10.0000));
+        Money money1 = new Money(MoneyType.USD, BigDecimal.valueOf(10.0000));
+        System.out.println(money.hashCode());
         System.out.println(money1.hashCode());
         System.out.println(money.equals(money1));
     }
