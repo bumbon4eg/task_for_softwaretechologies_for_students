@@ -27,17 +27,21 @@ public class Money {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }else if (o instanceof Money) {
-            if (this.amount==null||((Money) o).amount==null) {
-                return (this.amount==null&&((Money) o).amount==null);
-            } else {
-                return ((Objects.equals(this.amount.setScale(4, RoundingMode.HALF_UP), ((Money) o).amount.setScale(4, RoundingMode.HALF_UP))
-                        && (Objects.equals(this.type, ((Money) o).type))));
-            }
-        }
-        return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Money money = (Money) o;
+
+        // Сравнение type с обработкой null
+        if (!Objects.equals(type, money.type)) return false;
+
+        if (amount == null && money.amount == null) return true;
+        if (amount == null || money.amount == null) return false;
+
+        BigDecimal thisScaled = amount.setScale(4, RoundingMode.HALF_UP);
+        BigDecimal otherScaled = money.amount.setScale(4, RoundingMode.HALF_UP);
+
+        return thisScaled.compareTo(otherScaled) == 0;
     }
 
     /**
@@ -62,11 +66,11 @@ public class Money {
             return 10000;
         }
 
-        BigDecimal scaledAmount = amount.setScale(4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(10_000));
-        if (scaledAmount.compareTo(BigDecimal.valueOf(MAX_VALUE - 5)) >= 0) {
+        BigDecimal scaledAmount = this.amount.setScale(4, RoundingMode.HALF_UP);
+        if (scaledAmount.multiply(BigDecimal.valueOf(10_000)).compareTo(BigDecimal.valueOf(MAX_VALUE - 5)) >= 0) {
             return MAX_VALUE;
         } else {
-            int tmp = this.amount.setScale(4, RoundingMode.HALF_UP).intValue();
+            int tmp = scaledAmount.intValue();
 
             if (type == null) {
                 tmp += 5;
@@ -74,26 +78,13 @@ public class Money {
             }
 
             switch (this.type) {
-                case USD -> {
-                    tmp += 1;
-                    }
-                    case EURO -> {
-                        tmp += 2;
-                        break;
-                    }
-                    case RUB -> {
-                        tmp += 3;
-                        break;
-                    }
-                    case KRONA -> {
-                        tmp += 4;
-                        break;
-                    }
-                    default -> {
-                        tmp += 5;
-                        break;
-                    }
+                case USD -> tmp += 1;
+                case EURO -> tmp += 2;
+                case RUB -> tmp += 3;
+                case KRONA -> tmp += 4;
+                default -> tmp += 5;
             }
+
             return tmp;
         }
     }
