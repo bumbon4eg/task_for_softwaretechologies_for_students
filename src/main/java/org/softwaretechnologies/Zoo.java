@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Zoo {
     private final List<Animal> animalList = new ArrayList<>();
@@ -33,14 +34,9 @@ public class Zoo {
      * @return Звуки животных, в алфавитном порядке имени животного.
      */
     public List<String> soundAllAnimalsSortByName() {
-        List<String> sounds = new ArrayList<>();
-
-        animalList.sort(Comparator.comparing(Animal::getName));
-
-        for (Animal animal : animalList) sounds.add(animal.sound());
-
-        return sounds;
+        return animalList.stream()
+                .sorted(Comparator.comparing(Animal::getName))
+                .map(Animal::sound)
+                .collect(Collectors.toList());
     }
-
-
 }
