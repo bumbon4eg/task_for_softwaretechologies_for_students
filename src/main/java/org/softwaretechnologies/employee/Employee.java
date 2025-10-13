@@ -16,6 +16,9 @@ public abstract class Employee {
         this.baseSalary = baseSalary;
     }
 
+    protected Employee() {
+    }
+
     public abstract int getMonthSalary(int month);
 
     public String getName() {
