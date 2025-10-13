@@ -4,7 +4,19 @@ package org.softwaretechnologies;
 //  к стоимости базового напитка добавьте 10.
 //  к описанию добавьте " + milk"
 
-public class MilkCoffee {
+public class MilkCoffee implements CoffeeInterface {
+    public CoffeeInterface cofe;
+    public MilkCoffee(CoffeeInterface cofe) {
+        this.cofe = cofe;
+    }
 
+    @Override
+    public int getCost() {
+        return cofe.getCost() + 10;
+    }
 
+    @Override
+    public String description() {
+        return cofe.description() + " + milk";
+    }
 }
