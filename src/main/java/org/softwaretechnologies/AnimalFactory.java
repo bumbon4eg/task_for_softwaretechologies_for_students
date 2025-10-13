@@ -1,7 +1,6 @@
 package org.softwaretechnologies;
 
-import org.softwaretechnologies.animals.Animal;
-import org.softwaretechnologies.animals.AnimalType;
+import org.softwaretechnologies.animals.*;
 
 public class AnimalFactory {
 
@@ -14,6 +13,17 @@ public class AnimalFactory {
 
 
     public static Animal createAnimal(String name, AnimalType type) {
-        return type.createAnimal(name);
+        switch (type) {
+            case CAT -> {
+                return new CAT(name);
+            }
+            case DOG -> {
+                return new DOG(name);
+            }
+            case COW -> {
+                return new COW(name);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        }
     }
 }
