@@ -13,17 +13,6 @@ public class AnimalFactory {
 
 
     public static Animal createAnimal(String name, AnimalType type) {
-        switch (type) {
-            case CAT -> {
-                return new CAT(name);
-            }
-            case DOG -> {
-                return new DOG(name);
-            }
-            case COW -> {
-                return new COW(name);
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + type);
-        }
+        return type.createAnimal(name);
     }
 }
