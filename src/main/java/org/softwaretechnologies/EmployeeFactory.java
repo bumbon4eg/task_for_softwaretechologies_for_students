@@ -16,17 +16,6 @@ public class EmployeeFactory {
 
 
     public static Employee createEmployee(String name, int baseSalary, EmployeeType type) {
-        switch (type){
-            case Manager -> {
-                return new Manager(name, baseSalary);
-            }
-            case Programmer -> {
-                return new Programmer(name, baseSalary);
-            }
-            case Tester -> {
-                return new Tester(name, baseSalary);
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + type);
-        }
+        return type.createEmployee(name, baseSalary);
     }
 }
